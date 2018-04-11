@@ -15,6 +15,7 @@ FROM ubuntu:17.10
 
 MAINTAINER TFX <tensorflow-extended-dev@googlegroups.com>
 
+# apt-get install -y: Automatic yes to prompts
 RUN apt-get update && apt-get install -y \
         curl
 # installing tensorflow serving using apt-get
