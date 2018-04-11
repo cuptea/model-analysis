@@ -17,13 +17,13 @@ MAINTAINER TFX <tensorflow-extended-dev@googlegroups.com>
 
 RUN apt-get update && apt-get install -y \
         curl
-
-# Add TensorFlow Serving repo
-
+# installing tensorflow serving using apt-get
+# reference: https://www.tensorflow.org/serving/setup
+# 1) Add TensorFlow Serving repo
 RUN echo "deb [arch=amd64] http://storage.googleapis.com/tensorflow-serving-apt stable tensorflow-model-server tensorflow-model-server-universal" | tee /etc/apt/sources.list.d/tensorflow-serving.list
 RUN curl -s https://storage.googleapis.com/tensorflow-serving-apt/tensorflow-serving.release.pub.gpg | apt-key add -
 
-# Get the model-server, use tensorflow-model-server-universal for older hardware
+# 2) Get the model-server, use tensorflow-model-server-universal for older hardware
 RUN apt-get update && apt-get install -y \
         tensorflow-model-server
 
@@ -41,6 +41,7 @@ ENV MODEL_PORT 9000
 RUN mkdir ${MODEL_DIR}
 WORKDIR ${MODEL_DIR}  # We will start the Model Server here
 
+# reference: https://www.tensorflow.org/serving/serving_basic#load_exported_model_with_standard_tensorflow_modelserver
 ENV MODEL_SERVER_CMD "/usr/bin/tensorflow_model_server --port=${MODEL_PORT} --model_base_path=${MODEL_DIR} --model_name=${MODEL_NAME}"
 
 CMD $MODEL_SERVER_CMD
